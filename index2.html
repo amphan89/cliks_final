@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Socials</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            background-color: darkgrey;
+        }
+
+        #grid {
+            display: grid;
+            height: 100vh;
+            grid-template-areas: "header contentFront contentFront contentFront contentFront contentFront contentFront contentFront contentFront contentFront contentFront contentFront contentFront contentFront contentFront contentFront contentFront contentFront contentFront";
+            grid-gap: 1px;
+        }
+
+        #header {
+            grid-area: header;
+            background-color: white;
+        }
+
+        #contentFront {
+            grid-area: contentFront;
+            background-color: white;
+        }
+
+        #sideBar {
+            grid-area: sideBar;
+            background-color: white;
+        }
+
+        #bigHr {
+            height: 10px;
+            background-color: darkgrey;
+        }
+
+        #banner {
+            padding: 0px;
+            margin: 9px;
+        }
+
+        h1 {
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+        .profilePic {
+            margin: 5px;
+            float: left;
+            position: absolute;
+        }
+
+        #typePost {
+            /* float: right; */
+            /* position: absolute; */
+        }
+
+        #userPost {
+            margin: 5px;
+            top: 5px;
+            width: 300px;
+            position: relative;
+            left: 65px;
+        }
+
+        #postItCont {
+            margin: 10px;
+            text-align: right;
+            position: relative;
+            right: 20px;
+            /* height: 200px; */
+        }
+
+        #searchContainer {}
+
+        #logoHome {
+            padding: 20px;
+        }
+
+        #mainSearch {
+            background-color: white;
+            border-color: blue;
+            color: blue;
+        }
+
+        /* #searchNavBar {
+        background-color: white;
+        color: white;
+      }
+      #search{
+        background-color: white;
+      } */
+        /* 
+      .navbar-custom{
+        background-color: white !important;
+        color:white;
+      } */
+
+        #samplePostContainer {
+            height: 265px;
+            width: 598px;
+            background-color: white;
+            padding: 15px;
+            margin: 15px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+        }
+
+        .profile {
+            height: 49px;
+            width: 49px;
+        }
+
+        #upPicIcon {
+            height: 38px;
+            width: 38px;
+        }
+
+        #upGIFIcon {
+            height: 38px;
+            width: 50px;
+        }
+
+        #uploadPicContain {
+            position: absolute;
+            float: left;
+            left: 60px;
+            top: 20px;
+        }
+
+        #gifContain {
+            position: absolute;
+            float: left;
+            left: 140px;
+            top: 20px;
+        }
+
+        .badge-pill {
+            float: right;
+            position: relative;
+            bottom: 39px;
+            right: 48px;
+            background-color: red;
+        }
+
+        .dropdown-menu {
+            display: none;
+        }
+
+        #mainContent {
+            position: relative;
+            height: 100%;
+            background-color: white;
+        }
+
+        .profile {
+            position: absolute;
+            /* left: -10px; */
+        }
+
+        #userNameOnPost {
+            position: relative;
+            left: 75px;
+            top: 7px;
+        }
+
+        #postOnPost {
+            position: relative;
+            top: 7px;
+        }
+
+        .thumbs {
+            height: 45px;
+            width: 35px;
+        }
+
+        #thumbsUp {
+            float: left;
+        }
+
+        #thumbsDown {
+            float: right;
+        }
+
+        #likes {
+            float: right;
+        }
+
+        #dislikes {
+            float: right;
+        }
+
+        #logoPic {
+            height: 40px;
+            width: 140px;
+        }
+
+        .scale-up-center {
+            -webkit-animation: scale-up-center 0.25s cubic-bezier(0.680, -0.550, 0.265, 1.550) both;
+            animation: scale-up-center 0.25s cubic-bezier(0.680, -0.550, 0.265, 1.550) both;
+            height: 75px;
+            width: 75px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        #outer-grid {
+            display: grid;
+            grid-template-rows: 1fr;
+            grid-template-columns: 1fr;
+            grid-gap: 8px;
+        }
+
+        #outer-grid>div {
+            background-color: limegreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+        }
+
+        #inner-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-gap: 5px;
+        }
+
+        #inner-grid>div {
+            background: lightgreen;
+            padding: 8px;
+        }
+
+        #inner-grid2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-gap: 5px;
+        }
+
+        #inner-grid2>div {
+            background: purple;
+            padding: 8px;
+        }
+
+        /* Acquiantance Classes: */
+        .A_ID {
+            display: grid;
+            grid-template-rows: 1fr;
+            grid-template-columns: 1fr;
+            grid-gap: 8px;
+        }
+
+        .A_ID>div {
+            background-color: limegreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+        }
+
+        .A_ID>#d1 {
+            background-color: limegreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .A_ID>#d2 {
+            background-color: limegreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .A_ID>#d3 {
+            background-color: limegreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 3;
+            grid-row: 1;
+        }
+
+        .A_ID>#d4 {
+            background-color: limegreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .A_ID>#d5 {
+            background-color: limegreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .A_ID>#d6 {
+            background-color: limegreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        .A_ID>#d7 {
+            background-color: limegreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 1;
+            grid-row: 3;
+        }
+
+        .A_ID>#d8 {
+            background-color: limegreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 2;
+            grid-row: 3;
+        }
+
+        .A_ID>#d9 {
+            background-color: limegreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 3;
+            grid-row: 3;
+        }
+
+
+
+        /* Friend Classes: */
+        .F_ID {
+            display: grid;
+            grid-template-rows: 1fr;
+            grid-template-columns: 1fr;
+            grid-gap: 8px;
+        }
+
+        .F_ID>div {
+            background-color: lightgreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+        }
+
+        .F_ID>#d1 {
+            background-color: lightgreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .F_ID>#d2 {
+            background-color: lightgreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .F_ID>#d3 {
+            background-color: lightgreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 3;
+            grid-row: 1;
+        }
+
+        .F_ID>#d4 {
+            background-color: lightgreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .F_ID>#d5 {
+            background-color: lightgreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .F_ID>#d6 {
+            background-color: lightgreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        .F_ID>#d7 {
+            background-color: lightgreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 1;
+            grid-row: 3;
+        }
+
+        .F_ID>#d8 {
+            background-color: lightgreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 2;
+            grid-row: 3;
+        }
+
+        .F_ID>#d9 {
+            background-color: lightgreen;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 3;
+            grid-row: 3;
+        }
+
+
+
+        /* Close Friend Classes: */
+        .CF_ID {
+            display: grid;
+            grid-template-rows: 1f, 1fr, 1fr;
+            grid-template-columns: 1fr, 1fr, 1fr;
+            grid-gap: 8px;
+        }
+
+        .CF_ID>div {
+            background-color: lightblue;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+        }
+
+        .CF_ID>#d1 {
+            background-color: red;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .CF_ID>#d2 {
+            background-color: red;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .CF_ID>#d3 {
+            background-color: red;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 3;
+            grid-row: 1;
+        }
+
+        .CF_ID>#d4 {
+            background-color: red;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .CF_ID>#d5 {
+            background-color: red;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .CF_ID>#d6 {
+            background-color: red;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        .CF_ID>#d7 {
+            background-color: red;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 1;
+            grid-row: 3;
+        }
+
+        .CF_ID>#d8 {
+            background-color: red;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 2;
+            grid-row: 3;
+        }
+
+        .CF_ID>#d9 {
+            background-color: red;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+            grid-column: 3;
+            grid-row: 3;
+        }
+
+        /* Current User Classes */
+        .youID {
+            display: grid;
+            grid-template-rows: 1f, 1fr, 1fr;
+            grid-template-columns: 1fr, 1fr, 1fr;
+            grid-gap: 8px;
+            text-align: center;
+        }
+
+        .youID>div {
+            background-color: purple;
+            color: white;
+            font-size: 4vw;
+            padding: 8px;
+        }
+
+        #youIndic {
+            height: 12px;
+            width: 12px;
+            background-color: aqua;
+            left: -3px;
+            position: relative;
+        }
+
+        #otherOb {
+            height: 23px;
+            width: 22px;
+            font-size: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="grid">
+        <div id="header">
+            <div id="headerContent">
+                <div id="logoHome">
+                    <h2>cliks</h1>
+                </div>
+                <div id="nav">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <h1>Home</h1>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <h1>Explore</h1>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <h1>Notifications</h1>
+                            </a><span class="badge badge-primary badge-pill">0</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <h1>Messages</h1>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <h1>Profile</h1>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                                aria-haspopup="true" aria-expanded="false">More</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Separated link</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- <h1>Home</h1>
+            <h1>Explore</h1>
+            <h1>Notifications</h1>
+            <h1>Messages</h1>
+            <h1>Profile</h1>
+            <h1>More</h1> -->
+                </div>
+                <div id="compose"></div>
+            </div>
+        </div>
+        <div id="contentFront">
+            <div id="banner">
+                <h1 id="bannerText">Social Circle</h1>
+            </div>
+            <hr />
+            <!-- <hr id="bigHr" /> -->
+            <div id="mainContent">
+                <!-- main content goes here -->
+                <!-- <div id="outer-grid">
+          <div>1
+              <div id="inner-grid">
+                  <div>5
+                      <div id="inner-grid2">
+                          <div>6</div>
+                  </div>
+                  
+                  </div>
+                </div>
+          </div>
+          
+        </div> -->
+
+                <!-- circles here -->
+                <div class="A_ID">
+                    <div id="d1">1
+                        <div>1</div>
+                    </div>
+                    <div id="d2">2
+                        <div>1</div>
+                    </div>
+                    <div id="d3">3
+                        <div>1</div>
+                    </div>
+                    <div id="d4">4
+                        <div>1</div>
+                    </div>
+                    <!-- Acquintance content goes here -->
+                    <div id="d5">acquaintances
+                        <table style="width:100%">
+                            <tr id="A_loc">
+
+                            </tr>
+                        </table>
+                        <div class="F_ID">
+                            <!-- Friends content goes here -->
+                            <div id="d1">1</div>
+                            <div id="d2">2</div>
+                            <div id="d3">3</div>
+                            <div id="d4">4</div>
+                            <div id="d5">friends
+                                <!-- <table style="width:100%">
+                  <tr id="F_loc">
+
+                  </tr>
+                </table> -->
+                                <div class="CF_ID">
+                                    <!-- Close friends content goes here -->
+                                    <div id="d1">1</div>
+                                    <div id="d2">2</div>
+                                    <div id="d3">3</div>
+                                    <div id="d4">4</div>
+                                    <div id="d5">(5)close friends
+                                        <div class="youID">
+                                            <!-- Current User's content goes here -->
+                                            <div><span class='scale-up-center' id="youIndic"></span>
+                                                <table style="width:100%">
+                                                    <tr id="you_loc">
+
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="d6">6</div>
+                                    <div id="d7">7</div>
+                                    <div id="d8">8</div>
+                                    <div id="d9"> 9</div>
+
+                                </div>
+                            </div>
+                            <div id="d6">6</div>
+                            <div id="d7">7</div>
+                            <div id="d8">8</div>
+                            <div id="d9"> 9</div>
+                        </div>
+                    </div>
+                    <div id="d6">6</div>
+                    <div id="d7">7</div>
+                    <div id="d8">8</div>
+                    <div id="d9"> 9</div>
+                </div>
+
+                <script type="text/javascript" src="user.js"></script>
+                <script type="text/javascript">
+                    //     $(document).ready(function () {
+                    //         $(".dropdown-toggle").dropdown();
+                    // });
+
+                    $(function () {
+                        $('[data-toggle="popover"]').popover();
+                    });
+
+                    $(".btn-secondary").attr(
+                        "data-content",
+                        `Examples:<img src="assets/images/49.png" /></div>`
+                    );
+
+                    var tplacement;
+                    // var testCase = new userComparison(4, 10);
+
+
+
+                    // if (userComparison.placement() == "This user is a close friend") {
+
+                    // }
+                    // $("#cf_div").html();
+                    // userComparison.placement();
+                    // console.log(userComparison.intLevel());
+                    // console.log(userComparison.ethicsLevel());
+                    // console.log(userComparison.convertScore());
+                    // // console.log(userComparison.placement());
+                    // console.log("tplacement: " + userComparison.placement());
+
+                    // General idea of how to add a user circle, instead of '..placement', it would be the span with the user's img added.
+
+
+                    var currentUserData = { //where current user data should go when registered or logged in 
+                        user_name: "Billy Bob",
+                        picture: `<img src="../clicks-concept/profile.jpg" height="44px" width="44px">`,
+                        email: "billybob@gmail.com",
+                        password: "password",
+                        academic_info: ["Web Developer", "BS Degree", "Computer Science", "SFSU"],
+                        location: ["Amarillo", "TX", "USA"],
+                        interests: ["horseback riding", "sports", "painting", "fitness", "cars"],
+                        coolest_thing: "Rode a horse",
+
+                        scores: [5, 2, 3, 4, 5, 4, 4, 1, 5, 5]
+                    };
+
+
+                    // console.log(usersData[i].interests);
+                    var icomparor1 = currentUserData.interests;
+                    var scomparor1 = currentUserData.scores;
+                    var testIntMatch = 0;
+                    var testEthDiff = 0;
+                    var xsum = 0;
+                    var ysum = 0;
+                    // var placArray = new Set
+
+                    // The arrays to catagorize users in relation to current user: 
+                    var closeFriendArray = new Set();
+                    var friendArray = new Set();
+                    var acArray = new Set();
+                    var genArray = new Set();
+
+                    console.log("This is the current user: " + currentUserData.user_name);
+                    console.log("Interests: " + currentUserData.interests);
+                    console.log("Scores: " + currentUserData.scores);
+                    console.log("_________________________________________________");
+
+
+                    // Adds current user to homescreen:
+                    $("#you_loc").append("<td><span class='scale-up-center'>" + currentUserData.picture +
+                        "</span><td>");
+                    console.log("This should be in the center:" + currentUserData.user_name)
+
+                    for (j = 0; j <= usersData.length - 1; j++) {
+                        var icomparor2 = usersData[j].interests;
+                        var scomparor2 = usersData[j].scores;
+
+                        console.log("New user to compare: " + usersData[j]
+                            .user_name); // for reading out each user in console
+                        console.log("Interests: " + usersData[j].interests);
+                        console.log("Scores: " + usersData[j].scores);
+
+                        for (x in icomparor1) {
+                            for (y in icomparor2) {
+                                if (icomparor1[x] == icomparor2[y]) {
+                                    testIntMatch++;
+                                }
+                            }
+                        }
+                        for (x in scomparor1) {
+                            xsum += scomparor1[x];
+                        }
+                        console.log("xsum: " + xsum);
+                        for (y in scomparor2) {
+                            ysum += scomparor2[y];
+                        }
+                        console.log("ysum: " + ysum);
+
+                        testEthDiff = ysum - xsum;
+                        console.log("1st EthDiff: " + testEthDiff);
+
+                        if (testEthDiff < 0) {
+                            testEthDiff = testEthDiff * (-1);
+                        }
+
+
+
+                        console.log("The intMatch is: " +
+                            testIntMatch
+                        ); // You enclose all of this into a method and have the object call from it to get it's intMatch
+
+                        console.log("Final EthDiff: " + testEthDiff);
+
+
+
+                        console.log("___");
+
+                        function intLevel(testIntMatch) {
+                            //  the intmatch would be the variable assigned to the amount of times the program matches the same interests between two users
+                            // var a_level = 100;
+                            // var b_level = 80;
+                            // var c_level = 60;
+                            // var g_level = 40;
+
+                            var i_level;
+
+                            if (this.testIntMatch >= 4) {
+                                i_level = 100;
+                                return i_level;
+                            } else if (this.testIntMatch >= 3) {
+                                i_level = 80;
+                                return i_level;
+                            } else if (this.testIntMatch >= 2) {
+                                i_level = 60;
+                                return i_level;
+                            } else {
+                                i_level = 0; //was previously set to 40
+                                return i_level;
+                            }
+
+                        }
+
+                        function ethicsLevel(testEthDiff) {
+                            //  the testEthDiff would be the variable assigned to the score given when program compares two users' answers to the Ethics Quiz
+                            // bm = "bad_match";
+                            // nm = "neutral_match";
+                            // gm = "good_match";
+                            // em = "excellent_match";
+                            // var bm = 30;
+                            // var nm = 45;
+                            // var gm = 60;
+                            // var em = 75;
+                            var ethics;
+                            // Highest possible from user.scores array = 50; divide 50 by 4 to know what to categorize by (12.5)
+                            if (this.testEthDiff >= 0 && this.testEthDiff < 12.5) {
+                                ethics = 75;
+                                return ethics;
+
+                            } else if (this.testEthDiff >= 12.5 && this.testEthDiff < 25) {
+                                ethics = 45; //formally 60
+                                return ethics;
+
+
+                            } else if (this.testEthDiff >= 25 && this.testEthDiff < 37.5) {
+                                ethics = 30; //formally 45
+                                return ethics;
+
+
+                            } else if (this.testEthDiff >= 37.5 && this.testEthDiff <= 50) {
+                                ethics = 5; //formally 30
+                                return ethics;
+                            }
+                        }
+
+                        function convertScore(i_level, ethics) {
+                            // var intA = intLevel(a_level);
+                            // var intB = intLevel(b_level);
+                            // var intC = intLevel(c_level);
+                            // var intG = intLevel(g_level);
+
+                            // a_level = 100;
+                            // b_level = 80;
+                            // c_level = 60;
+                            // g_level = 40; Go into intLevel to change values
+
+
+                            var intsPossible = 100;
+                            //makes a score dividing intsPossible by the current instance of the returned val of intLevel
+                            // var interestScore = (this.intLevel()/intsPossible);
+
+                            // bm = 30;
+                            // nm = 45;
+                            // gm = 60;
+                            // em = 75;  Go into ethicsLevel to change values
+
+                            var ethicsPossible = 75;
+                            // var ethicsScore = (this.ethicsLevel()/ethicsPossible);
+
+                            var convPossible = ((intsPossible + ethicsPossible) /
+                                2) //87.5 : Average of the two highest possible scores (int and ethics)
+
+                            var convScore = ((ethicsLevel() + intLevel()) /
+                                2) //Average of the two scores of the users
+
+                            return convScore;
+                        }
+
+                        function placement(convScore, tplacement) {
+                            if (convertScore() >= 65.75) {
+                                tplacement = "This user is a close friend";
+                                closeFriendArray.add(this.usersData[j].user_name);
+                                return tplacement;
+                            } else if (convertScore() >= 44) {
+                                tplacement = "This user is a friend";
+                                friendArray.add(this.usersData[j].user_name);
+                                return tplacement;
+
+                            } else if (convertScore() >= 22.25) {
+                                tplacement = "This user is an acquaintance";
+                                acArray.add(this.usersData[j].user_name);
+                                return tplacement;
+
+                            } else if (convertScore() < 22.25) {
+                                tplacement = "This user should not show (general user)";
+                                genArray.add(this.usersData[j].user_name);
+                                return tplacement;
+                            }
+                        }
+
+                        intLevel();
+                        ethicsLevel();
+                        convertScore();
+                        placement();
+                        //  circles loop experiment
+
+                        // placArray = Array.from(placArray);
+
+
+                        // placArray.push(placement());
+                        // for (i = 0; i < placArray.length; i++){
+                        //   console.log("Arrayz: " + placArray[i]);
+                        // }
+                        // console.log("Arrayz: " + placArray);
+
+
+                        // for (i = 0; i < divArray.length; i++) {
+                        //     console.log(divArray[i]);
+                        // }
+                        // if (placement() == "This user is a close friend") {
+                        //     // for (i = 0; i < divArray.length; i++) {
+                        //         // $(`"#CF_loc>" + divArray[i]`).append("<td><span class='scale-up-center'>" + placement() + "</span><td>");
+                        //     }
+                        //     // $("#CF_loc").append("<td><span class='scale-up-center'>" + placement() + "</span><td>");
+
+                        // } else if (placement() == "This user is a friend") {
+                        //     // placArray.push(this.placement());
+                        //     // placArray.push(usersData[j].user_name);
+
+                        //     // For the friend array to loop friend names into || In future can set a defined length as well (arraylist)
+
+
+                        //     console.log("Correct is: " + this.usersData[j].user_name);
+                        //     for (i = 0; i < divArray.length; i++) {
+                        //         // $(divArray[i]).append("<span class='scale-up-center' id='otherOb'>" + placArray[1] + "</span>");
+
+
+
+
+
+                        //         // for(j = 0; j < placArray.length -1; j++){
+
+                        //         // }
+
+
+
+
+                        //         // $(divArray[i]).find('div:contains(usersData[j].user_name)').remove();
+
+                        //         // $(divArray[i]).append("<p>working!!<p>");
+                        //     }
+                        //     console.log("working!!");
+                        //     // $("#F_loc>#d1").append("<span class='scale-up-center'>" + placement() + "</span>");
+                        //     // $(".F_ID>#d1").append("<p>working!!<p>");
+                        //     // $("#F_loc").append("<td><span class='scale-up-center'>" + placement() + "</span><td>");
+
+                        // } else if (placement() == "This user is an acquaintance") {
+                        //     for (i = 0; i <= divArray.length; i++) {
+
+                        //         // $(divArray[i]).append("<td><span class='scale-up-center'>" + placement() + "</span><td>");
+                        //         $(`"#A_loc>" + divArray[i]`).append("<td><span class='scale-up-center'>" + placement() +
+                        //             "</span><td>");
+                        //     }
+
+
+                        // }
+
+
+                        console.log(intLevel());
+                        console.log(ethicsLevel());
+                        console.log(convertScore());
+                        console.log("tplacement: " + placement());
+                        console.log(usersData[j].user_name);
+                        console.log("_________________________________________________");
+
+                        // console.log(placArray);
+                        // console.log(plac)
+                        // console.log("Arrayz: " + placArray);
+
+
+
+                        // console.log(usersData[j].interests);
+
+
+
+
+                        // for (i) {
+                        //     console.log(comparor[i]);
+                        // }
+
+                    }
+
+                    // console.log(friendArray);
+                    // for (j = 0; j <= friendArray.length - 1; j++) {
+                    //     console.log(friendArray[j] + " Check!");
+                    // }
+
+                    // Checking to make sure arrays work:
+                    console.log(closeFriendArray);
+                    console.log(friendArray);
+                    console.log(acArray);
+                    console.log(genArray);
+                    console.log("complete!");
+
+
+                    // Here I take the arrays (ex. friendarray) and append to div loops
+                    var divArrayCF = ['.CF_ID>#d1', '.CF_ID>#d2', '.CF_ID>#d3', '.CF_ID>#d4', '.CF_ID>#d6',
+                        '.CF_ID>#d7',
+                        '.CF_ID>#d8', '.CF_ID>#d9'
+                    ]
+                    var divArrayF = ['.F_ID>#d1', '.F_ID>#d2', '.F_ID>#d3', '.F_ID>#d4', '.F_ID>#d6', '.F_ID>#d7',
+                        '.F_ID>#d8', '.F_ID>#d9'
+                    ]
+                    var divArrayA = ['.A_ID>#d1', '.A_ID>#d2', '.A_ID>#d3', '.A_ID>#d4', '.A_ID>#d6', '.A_ID>#d7',
+                        '.A_ID>#d8', '.A_ID>#d9'
+                    ]
+                    // var divArrayG = ['.F_ID>#d1', '.F_ID>#d2', '.F_ID>#d3', '.F_ID>#d4', '.F_ID>#d6', '.F_ID>#d7',
+                    //     '.F_ID>#d8', '.F_ID>#d9'
+                    // ]
+
+                    // converts from sets to arrays
+                    closeFriendArray = Array.from(closeFriendArray);
+                    friendArray = Array.from(friendArray);
+                    acArray = Array.from(acArray);
+                    genArray = Array.from(genArray);
+
+
+
+                    // appends:
+                    for (i = 0; i < divArrayCF.length; i++) {
+                        $(divArrayCF[i]).append("<span class='scale-up-center' id='otherOb'>" + closeFriendArray
+                            .shift() +
+                            "</span>");
+                    }
+
+                    for (i = 0; i < divArrayF.length; i++) {
+                        $(divArrayF[i]).append("<span class='scale-up-center' id='otherOb'>" + friendArray.shift() +
+                            "</span>");
+                    }
+
+                    for (i = 0; i < divArrayA.length; i++) {
+                        $(divArrayA[i]).append("<span class='scale-up-center' id='otherOb'>" + acArray.shift() +
+                            "</span>");
+                    }
+
+                    // for (i = 0; i < divArray.length; i++) {
+                    //     $(divArray[i]).append("<span class='scale-up-center' id='otherOb'>" + genArray.shift() +
+                    //         "</span>");
+                    // }
+
+
+
+
+
+
+
+
+
+
+
+
+                    // userComparison.placement();
+                    // console.log(userComparison.placement());
+
+                    const userComparison = {
+                        // intMatch: 4,
+                        // testEthDiff: 20,
+                        intLevel: function (testIntMatch) {
+                            //  the intmatch would be the variable assigned to the amount of times the program matches the same interests between two users
+                            // var a_level = 100;
+                            // var b_level = 80;
+                            // var c_level = 60;
+                            // var g_level = 40;
+
+                            var i_level;
+
+                            if (this.testIntMatch >= 4) {
+                                i_level = 100;
+                                return i_level;
+                            } else if (this.testIntMatch >= 3) {
+                                i_level = 80;
+                                return i_level;
+                            } else if (this.testIntMatch >= 2) {
+                                i_level = 60;
+                                return i_level;
+                            } else {
+                                i_level = 0; //was previously set to 40
+                                return i_level;
+                            }
+
+                        },
+
+                        ethicsLevel: function (testEthDiff) {
+                            //  the testEthDiff would be the variable assigned to the score given when program compares two users' answers to the Ethics Quiz
+                            // bm = "bad_match";
+                            // nm = "neutral_match";
+                            // gm = "good_match";
+                            // em = "excellent_match";
+                            // var bm = 30;
+                            // var nm = 45;
+                            // var gm = 60;
+                            // var em = 75;
+                            var ethics;
+                            // Highest possible from user.scores array = 50; divide 50 by 4 to know what to categorize by (12.5)
+                            if (this.testEthDiff >= 0 && this.testEthDiff < 12.5) {
+                                ethics = 75;
+                                return ethics;
+
+                            } else if (this.testEthDiff >= 12.5 && this.testEthDiff < 25) {
+                                ethics = 45; //formally 60
+                                return ethics;
+
+
+                            } else if (this.testEthDiff >= 25 && this.testEthDiff < 37.5) {
+                                ethics = 30; //formally 45
+                                return ethics;
+
+
+                            } else if (this.testEthDiff >= 37.5 && this.testEthDiff <= 50) {
+                                ethics = 5; //formally 30
+                                return ethics;
+                            }
+                        },
+                        convertScore: function (i_level, ethics) {
+                            // var intA = intLevel(a_level);
+                            // var intB = intLevel(b_level);
+                            // var intC = intLevel(c_level);
+                            // var intG = intLevel(g_level);
+
+                            // a_level = 100;
+                            // b_level = 80;
+                            // c_level = 60;
+                            // g_level = 40; Go into intLevel to change values
+
+
+                            var intsPossible = 100;
+                            //makes a score dividing intsPossible by the current instance of the returned val of intLevel
+                            // var interestScore = (this.intLevel()/intsPossible);
+
+                            // bm = 30;
+                            // nm = 45;
+                            // gm = 60;
+                            // em = 75;  Go into ethicsLevel to change values
+
+                            var ethicsPossible = 75;
+                            // var ethicsScore = (this.ethicsLevel()/ethicsPossible);
+
+                            var convPossible = ((intsPossible + ethicsPossible) /
+                                2) //87.5 : Average of the two highest possible scores (int and ethics)
+
+                            var convScore = ((userComparison.ethicsLevel() + userComparison.intLevel()) /
+                                2) //Average of the two scores of the users
+
+                            return convScore;
+                        },
+                        placement: function (convScore, tplacement) {
+                            // var tplacement;
+                            // console.log("ethics score is " + userComparison.ethicsLevel());
+                            // console.log("interest score is " + userComparison.intLevel());
+                            // Circle/chart placement; totalpossible = 87.5; decrement placement score by 21.75
+                            if (userComparison.convertScore() >= 65.75) {
+                                tplacement = "This user is a close friend";
+                                // console.log("inside placement: "+ tplacement);
+                                return tplacement;
+                                // code to add into CF_div (CF = close friends)
+                            } else if (userComparison.convertScore() >= 44) {
+                                tplacement = "This user is a friend";
+                                return tplacement;
+                                // code to add into F_div (F = friends)
+                            } else if (userComparison.convertScore() >= 22.25) {
+                                tplacement = "This user is an acquaintance";
+                                return tplacement;
+                                // code to add into A_div (A = acquaintances)
+                            } else if (userComparison.convertScore() < 22.25) {
+                                tplacement = "This user should not show (general user)";
+                                return tplacement;
+                                // code to hide
+                            }
+                        },
+
+
+                    };
+                </script>
+</body>
+
+</html>
